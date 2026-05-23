@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  quant-research:
+    build: .
+    image: quantresearch-playbook:latest
+    container_name: qrp
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    command: python -m self_test.run_all
+    environment:
+      - PYTHONIOENCODING=utf-8
