@@ -203,15 +203,18 @@ def check_alpha_input(data) -> None:
 
 def prepare_alpha_data(data, adj_close: str = "close") -> dict:
     """准备 Alpha101 所需的标准数据集"""
-    import polars as pl
-
+    cols = set(data.columns)
     close = data[adj_close]
-    open_p = data.get("open", close)
-    high = data.get("high", close)
-    low = data.get("low", close)
-    volume = data.get("volume", pl.Series("vol", np.ones(len(close))))
-    vwap = data.get("vwap", close)
-    returns = data.get("returns", close.pct_change(1))
+
+    def _get(col, default):
+        return data[col] if col in cols else default
+
+    open_p = _get("open", close)
+    high = _get("high", close)
+    low = _get("low", close)
+    volume = _get("volume", pl.Series("vol", np.ones(len(close))))
+    vwap = _get("vwap", close)
+    returns = _get("returns", close.pct_change(1))
 
     return {
         "open": open_p, "high": high, "low": low,

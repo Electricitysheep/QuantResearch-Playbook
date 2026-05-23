@@ -464,6 +464,13 @@ class Alpha101:
     def __init__(self):
         self._results: dict[str, pl.Series] = {}
 
+    def calculate(self, data: pl.DataFrame) -> pl.Series:
+        """计算所有 Alpha 并返回第一个因子值（兼容 Factor 基类接口）"""
+        results = self.compute_all(data)
+        if results:
+            return next(iter(results.values()))
+        return pl.Series("alpha", [float("nan")] * len(data))
+
     def compute(self, n: int, data: pl.DataFrame) -> pl.Series:
         """计算单个 Alpha"""
         check_alpha_input(data)
