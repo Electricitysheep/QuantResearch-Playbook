@@ -17,6 +17,7 @@ def generate_html_report(
     deps = env.get("dependencies", {})
     py_ok, py_ver = env.get("python", (False, "?"))
     pkg_ok, pkg_ver = env.get("qrp_package", (False, "?"))
+    opt_missing = env.get("optional_missing", [])
 
     total_factors = len(factor_results)
     passed_factors = sum(1 for r in factor_results if r["passed"])
@@ -174,6 +175,7 @@ code {{ background:#f1f5f9; padding:2px 6px; border-radius:3px; font-size:12px; 
 
 <div class="footer">
     QuantResearch-Playbook v0.1.0 | 运行方式: <code>python -m self_test.run_all</code>
+    <br>可选依赖提示: {'、'.join(opt_missing) if opt_missing else '全部已安装'}
 </div>
 </div>
 </body>

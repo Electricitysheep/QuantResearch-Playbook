@@ -42,7 +42,6 @@ def main():
     env_results = run_all_checks(quiet=args.quick)
 
     py_ok, py_ver = env_results["python"]
-    deps = env_results["dependencies"]
     pkg_ok, pkg_ver = env_results["qrp_package"]
 
     if not py_ok:
@@ -60,11 +59,12 @@ def main():
             print("  ❌ qrp 包安装失败")
             sys.exit(1)
 
-    all_deps_ok = all(
-        "(ok)" in s or "(just installed)" in s for s in deps.values()
-    )
-    if not all_deps_ok:
-        print("  ⚠️  部分依赖缺失，请检查上方的安装结果")
+    if not env_results.get("required_ok", True):
+        print("  ❌ 核心依赖缺失，请检查上方的安装结果")
+        sys.exit(1)
+    optional_missing = env_results.get("optional_missing", [])
+    if optional_missing:
+        print(f"  💡 可选依赖未安装: {', '.join(optional_missing)} (不影响核心功能)")
     print()
 
     # ── 第2步：因子测试 ──

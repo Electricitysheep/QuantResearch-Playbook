@@ -91,11 +91,25 @@ def check_package_installed() -> tuple[bool, str]:
 
 def run_all_checks(quiet: bool = False) -> dict:
     """运行全部环境检查"""
+    deps = auto_install(quiet=quiet)
+
+    required_ok = True
+    optional_missing = []
+    for name, status in deps.items():
+        if name in REQUIRED_DEPS:
+            if "(ok)" not in status and "(just installed)" not in status:
+                required_ok = False
+        else:
+            if "(ok)" not in status:
+                optional_missing.append(name)
+
     results = {
         "python": check_python_version(),
         "platform": check_platform(),
-        "dependencies": auto_install(quiet=quiet),
+        "dependencies": deps,
         "qrp_package": check_package_installed(),
+        "required_ok": required_ok,
+        "optional_missing": optional_missing,
     }
     return results
 
