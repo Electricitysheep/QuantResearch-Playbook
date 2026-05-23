@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# Data
+data/
+*.parquet
+*.h5
+*.csv
+*.feather
+!tests/data/*.csv
+
+# Reports
+output/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Ruff
+.ruff_cache/
+
+# Mypy
+.mypy_cache/
+
+# Package lock
+requirements-dev.txt

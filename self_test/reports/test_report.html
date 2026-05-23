@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantResearch-Playbook 自测报告</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#f5f7fa; color:#1a1a2e; padding:20px; }
+.container { max-width:1200px; margin:0 auto; }
+h1 { font-size:24px; margin-bottom:5px; }
+h2 { font-size:18px; margin:25px 0 10px; padding-bottom:5px; border-bottom:2px solid #e0e0e0; }
+.subtitle { color:#666; font-size:14px; margin-bottom:20px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:20px; }
+.card { background:#fff; border-radius:8px; padding:15px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+.card .num { font-size:28px; font-weight:700; }
+.card .label { font-size:12px; color:#666; margin-top:4px; }
+.card.green .num { color:#22c55e; }
+.card.orange .num { color:#f59e0b; }
+.card.blue .num { color:#3b82f6; }
+.card.red .num { color:#ef4444; }
+table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.08); margin-bottom:20px; }
+th { background:#1a1a2e; color:#fff; padding:10px 12px; font-size:13px; text-align:left; }
+td { padding:8px 12px; font-size:13px; border-bottom:1px solid #f0f0f0; }
+tr:hover { background:#f8fafc; }
+code { background:#f1f5f9; padding:2px 6px; border-radius:3px; font-size:12px; }
+.env-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:20px; }
+.env-item { background:#fff; border-radius:6px; padding:10px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.env-item .key { font-size:11px; color:#666; }
+.env-item .val { font-size:13px; font-weight:500; }
+.footer { text-align:center; color:#999; font-size:12px; margin-top:30px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>📊 QuantResearch-Playbook 自测报告</h1>
+<p class="subtitle">生成时间: 2026-05-23 12:21:47 | 一键验证框架完整性</p>
+
+<div class="cards">
+    <div class="card green">
+        <div class="num">28/28</div>
+        <div class="label">总测试通过 (100.0%)</div>
+    </div>
+    <div class="card blue">
+        <div class="num">24/24</div>
+        <div class="label">因子测试通过 (100.0%)</div>
+    </div>
+    <div class="card orange">
+        <div class="num">4/4</div>
+        <div class="label">分析模块通过 (100.0%)</div>
+    </div>
+    <div class="card" style="background:#1a1a2e;color:#fff">
+        <div class="num">24</div>
+        <div class="label">已实现因子/策略</div>
+    </div>
+</div>
+
+<h2>🖥️ 运行环境</h2>
+<div class="env-grid">
+    <div class="env-item">
+        <div class="key">Python</div>
+        <div class="val">✅ 3.14.2</div>
+    </div>
+    <div class="env-item">
+        <div class="key">QRP 包</div>
+        <div class="val">✅ 0.1.0</div>
+    </div>
+
+    <div class="env-item">
+        <div class="key">polars</div>
+        <div class="val">✅ 1.40.1 (ok)</div>
+    </div>
+    <div class="env-item">
+        <div class="key">numpy</div>
+        <div class="val">✅ 2.4.4 (ok)</div>
+    </div>
+    <div class="env-item">
+        <div class="key">scipy</div>
+        <div class="val">✅ 1.17.0 (ok)</div>
+    </div>
+    <div class="env-item">
+        <div class="key">pandas</div>
+        <div class="val">✅ 3.0.0 (ok)</div>
+    </div>
+    <div class="env-item">
+        <div class="key">matplotlib</div>
+        <div class="val">✅ 3.10.8 (ok)</div>
+    </div>
+    <div class="env-item">
+        <div class="key">seaborn</div>
+        <div class="val">✅ 0.13.2 (ok)</div>
+    </div>
+    <div class="env-item">
+        <div class="key">akshare</div>
+        <div class="val">⬜ not installed (optional)</div>
+    </div>
+</div>
+
+<h2>🔬 因子测试 (24/24 通过)</h2>
+<table>
+<thead><tr><th>状态</th><th>因子名称</th><th>类</th><th style="text-align:right">均值</th><th style="text-align:right">标准差</th><th style="text-align:right">耗时</th><th>备注</th></tr></thead>
+<tbody>
+        <tr>
+            <td>✅</td>
+            <td><code>vwap_dev_60</code></td>
+            <td style="font-size:12px;color:#666">FactorVwapDev</td>
+            <td style="text-align:right">-0.911865</td>
+            <td style="text-align:right">0.004423</td>
+            <td style="text-align:right">10.7ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>momentum_60</code></td>
+            <td style="font-size:12px;color:#666">FactorMomentum</td>
+            <td style="text-align:right">-0.007444</td>
+            <td style="text-align:right">0.060394</td>
+            <td style="text-align:right">4.91ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>rsi_14</code></td>
+            <td style="font-size:12px;color:#666">FactorRSI</td>
+            <td style="text-align:right">50.182874</td>
+            <td style="text-align:right">15.582281</td>
+            <td style="text-align:right">1.01ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>volume_vol_60</code></td>
+            <td style="font-size:12px;color:#666">FactorVolumeVol</td>
+            <td style="text-align:right">0.205563</td>
+            <td style="text-align:right">0.012409</td>
+            <td style="text-align:right">0.12ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>corr_pv_60</code></td>
+            <td style="font-size:12px;color:#666">FactorCorrPriceVolume</td>
+            <td style="text-align:right">-0.094376</td>
+            <td style="text-align:right">0.126942</td>
+            <td style="text-align:right">0.29ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>drawdown_60</code></td>
+            <td style="font-size:12px;color:#666">FactorDrawdown</td>
+            <td style="text-align:right">0.506471</td>
+            <td style="text-align:right">0.424738</td>
+            <td style="text-align:right">1.32ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>cpv_240</code></td>
+            <td style="font-size:12px;color:#666">CPVFactor</td>
+            <td style="text-align:right">-0.122692</td>
+            <td style="text-align:right">0.050033</td>
+            <td style="text-align:right">2.04ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>cpv_60</code></td>
+            <td style="font-size:12px;color:#666">CPVFactor</td>
+            <td style="text-align:right">-0.094376</td>
+            <td style="text-align:right">0.126942</td>
+            <td style="text-align:right">0.22ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>cpv_std_8</code></td>
+            <td style="font-size:12px;color:#666">CPVTimeSegmentFactor</td>
+            <td style="text-align:right">0.22491</td>
+            <td style="text-align:right">0.0</td>
+            <td style="text-align:right">6.15ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>cpv_std_1430</code></td>
+            <td style="font-size:12px;color:#666">CPVTimeSegmentFactor</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">1.2ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>rpv</code></td>
+            <td style="font-size:12px;color:#666">RPVFactor</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">62.69ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>srv</code></td>
+            <td style="font-size:12px;color:#666">SRVFactor</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">58.69ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>shadow_line_20</code></td>
+            <td style="font-size:12px;color:#666">ShadowLineFactor</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">2.12ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>candle_power_14</code></td>
+            <td style="font-size:12px;color:#666">CandlePowerFactor</td>
+            <td style="text-align:right">-0.167868</td>
+            <td style="text-align:right">11.05286</td>
+            <td style="text-align:right">1.21ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>iv_vol_60</code></td>
+            <td style="font-size:12px;color:#666">IdiosyncraticVolatilityFactor</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">12.82ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>serial_corr_5_60</code></td>
+            <td style="font-size:12px;color:#666">SerialCorrelationFactor</td>
+            <td style="text-align:right">0.133323</td>
+            <td style="text-align:right">0.087323</td>
+            <td style="text-align:right">1.85ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>ffscore</code></td>
+            <td style="font-size:12px;color:#666">FFScoreFactor</td>
+            <td style="text-align:right">0.620556</td>
+            <td style="text-align:right">0.138803</td>
+            <td style="text-align:right">0.32ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>bull_bear</code></td>
+            <td style="font-size:12px;color:#666">BullBearIndex</td>
+            <td style="text-align:right">-0.064084</td>
+            <td style="text-align:right">0.340223</td>
+            <td style="text-align:right">0.72ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>rsrs_18</code></td>
+            <td style="font-size:12px;color:#666">RSRSIndicator</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">89.97ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>qrs_18</code></td>
+            <td style="font-size:12px;color:#666">QRSIndicator</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">12680.07ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>smart_money_20</code></td>
+            <td style="font-size:12px;color:#666">SmartMoneyFactor</td>
+            <td style="text-align:right">-0.018518</td>
+            <td style="text-align:right">0.189742</td>
+            <td style="text-align:right">2.49ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>apm_20</code></td>
+            <td style="font-size:12px;color:#666">APMFloorFactor</td>
+            <td style="text-align:right">0.0</td>
+            <td style="text-align:right">0.0</td>
+            <td style="text-align:right">1.75ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>amplitude_20</code></td>
+            <td style="font-size:12px;color:#666">AmplitudeFactor</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">nan</td>
+            <td style="text-align:right">62.05ms</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>momentum_cn_60</code></td>
+            <td style="font-size:12px;color:#666">MomentumFactor</td>
+            <td style="text-align:right">-0.005599</td>
+            <td style="text-align:right">0.048165</td>
+            <td style="text-align:right">0.83ms</td>
+            <td></td>
+        </tr></tbody>
+</table>
+
+<h2>⚙️ 分析模块测试 (4/4 通过)</h2>
+<table>
+<thead><tr><th>状态</th><th>模块</th><th style="text-align:right">耗时</th><th>详细信息</th></tr></thead>
+<tbody>
+        <tr>
+            <td>✅</td>
+            <td><code>DataLoader</code></td>
+            <td style="text-align:right">2.22ms</td>
+            <td><span style='margin-left:8px;font-size:11px;color:#666'>daily_rows=60</span><span style='margin-left:8px;font-size:11px;color:#666'>daily_cols=7</span><span style='margin-left:8px;font-size:11px;color:#666'>source_name=mock</span><span style='margin-left:8px;font-size:11px;color:#666'>stock_count=2</span></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>Factor Pipeline</code></td>
+            <td style="text-align:right">ms</td>
+            <td><span style='margin-left:8px;font-size:11px;color:#666'>base_factors=6</span><span style='margin-left:8px;font-size:11px;color:#666'>base_timing_ms=1.09</span><span style='margin-left:8px;font-size:11px;color:#666'>expanded_factors=19</span><span style='margin-left:8px;font-size:11px;color:#666'>expand_timing_ms=4.37</span></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>IC Analysis</code></td>
+            <td style="text-align:right">1.21ms</td>
+            <td><span style='margin-left:8px;font-size:11px;color:#666'>ic_mean=-0.0194</span><span style='margin-left:8px;font-size:11px;color:#666'>icir=-0.3169</span><span style='margin-left:8px;font-size:11px;color:#666'>rank_ic_mean=-0.0215</span><span style='margin-left:8px;font-size:11px;color:#666'>rank_icir=-0.5015</span><span style='margin-left:8px;font-size:11px;color:#666'>long_short_return=-0.0015</span><span style='margin-left:8px;font-size:11px;color:#666'>quantile_returns={1: 0.0007204205388231633, 2: -0.00017270988523065967, 3: 0.0025583950504059006, 4: -0.002733407197172406, 5: -0.0008077397738441412}</span></td>
+        </tr>
+        <tr>
+            <td>✅</td>
+            <td><code>Backtester</code></td>
+            <td style="text-align:right">0.98ms</td>
+            <td><span style='margin-left:8px;font-size:11px;color:#666'>total_return=-0.4616</span><span style='margin-left:8px;font-size:11px;color:#666'>sharpe_ratio=-1.9611</span><span style='margin-left:8px;font-size:11px;color:#666'>max_drawdown=-0.4765</span><span style='margin-left:8px;font-size:11px;color:#666'>win_rate=0.3171</span><span style='margin-left:8px;font-size:11px;color:#666'>num_trades=212</span></td>
+        </tr></tbody>
+</table>
+
+<div class="footer">
+    QuantResearch-Playbook v0.1.0 | 运行方式: <code>python -m self_test.run_all</code>
+</div>
+</div>
+</body>
+</html>

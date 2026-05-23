@@ -1,0 +1,1 @@
+"""qrp core package"""
