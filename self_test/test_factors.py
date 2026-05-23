@@ -156,6 +156,35 @@ def run_all_factor_tests() -> list[dict[str, Any]]:
     _r(AmplitudeFactor, "amplitude_20", "basic", {"window": 20})
     _r(MomentumFactor, "momentum_cn_60", "basic", {"window": 60, "skip_days": 21})
 
+    # ── 注册 Alpha101 因子 ──
+    from qrp.factors.alpha101 import Alpha101
+    _r(Alpha101, "alpha101_full", "basic", {})
+
+    # ── 注册中金高频因子 ──
+    from qrp.reports.others.zhongjin_factors import (
+        AmihudIlliquidity,
+        CorrPriceVolume,
+        IntradayMomentum,
+        RangeVolatility,
+        ShortTermReversal,
+    )
+    _r(ShortTermReversal, "cicc_sr_5", "basic", {"window": 5})
+    _r(IntradayMomentum, "cicc_idm_20", "basic", {"window": 20})
+    _r(RangeVolatility, "cicc_range_vol_20", "basic", {"window": 20})
+    _r(AmihudIlliquidity, "cicc_amihud_20", "basic", {"window": 20})
+    _r(CorrPriceVolume, "cicc_corr_pv_20", "basic", {"window": 20})
+
+    # ── 注册CPV期货版 ──
+    from qrp.reports.dongwu.cpv_futures import CPVFuturesV1, CPVFuturesV3, MarketMicrostructureFactor
+    _r(CPVFuturesV1, "cpv_futures_v1", "basic", {"window": 30})
+    _r(CPVFuturesV3, "cpv_futures_v3", "basic", {"window": 30})
+    _r(MarketMicrostructureFactor, "microstructure", "basic")
+
+    # ── 注册东方/广发/国泰新因子 ──
+    from qrp.reports.dongfang import BuySellPressureFactor, VolumePriceTrendFactor
+    _r(BuySellPressureFactor, "dongfang_bs_pressure", "basic", {"window": 20})
+    _r(VolumePriceTrendFactor, "dongfang_vpt", "basic", {"window": 20})
+
     # ── 执行所有测试 ──
     results = []
     total = len(TEST_FACTORS)

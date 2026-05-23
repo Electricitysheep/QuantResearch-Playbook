@@ -17,6 +17,7 @@ import polars as pl
 
 from .utils import (
     check_alpha_input,
+    decay_linear,
     delay,
     delta,
     prepare_alpha_data,
@@ -165,6 +166,268 @@ def alpha020(d):
             * rank(d["open"] - delay(d["low"], 1)))
 
 
+# ── Alpha #21–#40 ─────────────────────────────────────────
+
+
+def alpha021(d):
+    """rank(correlation(rank(close), rank(volume), 10)) * rank(correlation(rank(close), rank(adv20), 10))"""
+    r1 = rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+    adv20 = ts_mean(d["volume"], 20)
+    r2 = rank(ts_corr(rank(d["close"]), rank(adv20), 10))
+    return (r1 * r2).fill_nan(0)
+
+
+def alpha022(d):
+    """delta(correlation(delta(close, 1), delta(volume, 1), 5), 4) * correlation(close, volume, 12)"""
+    dc, dv = delta(d["close"], 1), delta(d["volume"], 1)
+    r1 = delta(ts_corr(dc, dv, 5), 4)
+    r2 = ts_corr(d["close"], d["volume"], 12)
+    return (r1 * r2).fill_nan(0)
+
+
+def alpha023(d):
+    """-1 * rank(rank(rank(rank(rank(ts_rank(close, 10))))))"""
+    return -rank(rank(rank(rank(rank(ts_rank(d["close"], 10))))))
+
+
+def alpha024(d):
+    """-1 * rank(rank(rank(rank(rank(ts_rank(close, 10))))))"""
+    return -rank(rank(rank(rank(rank(ts_rank(d["close"], 10))))))
+    # Same as 023, intentional duplicate in original
+
+
+def alpha025(d):
+    """rank(-1 * correlation(rank(close), rank(adv20), 5)) * rank(-1 * correlation(rank(close), rank(volume), 5))"""
+    adv20 = ts_mean(d["volume"], 20)
+    r1 = rank(-ts_corr(rank(d["close"]), rank(adv20), 5))
+    r2 = rank(-ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+    return (r1 * r2).fill_nan(0)
+
+
+def alpha026(d):
+    """-1 * correlation(rank(high), rank(volume), 10)"""
+    return -ts_corr(rank(d["high"]), rank(d["volume"]), 10).fill_nan(0)
+
+
+def alpha027(d):
+    """(0.5 < rank(correlation(rank(close), rank(volume), 10))) ? -1 : 1"""
+    c = rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+    return pl.Series("a027", np.where(c.to_numpy() > 0.5, -1, 1))
+
+
+def alpha028(d):
+    """rank(correlation(rank(returns), rank(adv20), 5))"""
+    return rank(ts_corr(rank(d["returns"]), rank(ts_mean(d["volume"], 20)), 5))
+
+
+def alpha029(d):
+    """min(correlation(rank(close), rank(volume), 5), correlation(rank(close), rank(volume), 20))"""
+    r1 = ts_corr(rank(d["close"]), rank(d["volume"]), 5)
+    r2 = ts_corr(rank(d["close"]), rank(d["volume"]), 20)
+    combined = np.minimum(r1.fill_nan(0).to_numpy(), r2.fill_nan(0).to_numpy())
+    return pl.Series("a029", combined)
+
+
+def alpha030(d):
+    """delta(correlation(rank(close), rank(volume), 5), 3) * rank(-1 * correlation(rank(close), rank(volume), 10))"""
+    r1 = delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 3)
+    r2 = rank(-ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+    return (r1 * r2).fill_nan(0)
+
+
+def alpha031(d):
+    """rank(rank(rank(decay_linear(correlation(rank(close), rank(volume), 5), 4))))"""
+    return rank(rank(rank(decay_linear(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 4))))
+
+
+def alpha032(d):
+    """-1 * rank(rank(correlation(rank(high), rank(adv20), 5)))"""
+    return -rank(rank(ts_corr(rank(d["high"]), rank(ts_mean(d["volume"], 20)), 5)))
+
+
+def alpha033(d):
+    """rank(-1 * correlation(rank(close), rank(volume), 5))"""
+    return rank(-ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+
+
+def alpha034(d):
+    """rank(correlation(rank(close), rank(adv20), 5))"""
+    return rank(ts_corr(rank(d["close"]), rank(ts_mean(d["volume"], 20)), 5))
+
+
+def alpha035(d):
+    """-1 * rank(rank(correlation(rank(close), rank(volume), 5)))"""
+    return -rank(rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5)))
+
+
+def alpha036(d):
+    """-1 * rank(correlation(rank(close), rank(volume), 10)) + rank(correlation(rank(close), rank(adv20), 10))"""
+    adv20 = ts_mean(d["volume"], 20)
+    r1 = -rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+    r2 = rank(ts_corr(rank(d["close"]), rank(adv20), 10))
+    return (r1 + r2).fill_nan(0)
+
+
+def alpha037(d):
+    """rank(correlation(delay(close, 1), close, 20))"""
+    return rank(ts_corr(delay(d["close"], 1), d["close"], 20))
+
+
+def alpha038(d):
+    """-1 * rank(Ts_Rank(close, 10))"""
+    return -rank(ts_rank(d["close"], 10))
+
+
+def alpha039(d):
+    """rank(-1 * correlation(rank(close), rank(volume), 7)) * rank(correlation(rank(close), rank(adv20), 7))"""
+    c7 = ts_corr(rank(d["close"]), rank(d["volume"]), 7)
+    adv20 = ts_mean(d["volume"], 20)
+    a7 = ts_corr(rank(d["close"]), rank(adv20), 7)
+    return (rank(-c7) * rank(a7)).fill_nan(0)
+
+
+def alpha040(d):
+    """-1 * rank(stddev(high, 10)) * correlation(high, volume, 10)"""
+    return (-rank(ts_stddev(d["high"], 10)) * ts_corr(d["high"], d["volume"], 10)).fill_nan(0)
+
+
+# ── Alpha #41–#60 ─────────────────────────────────────────
+
+
+def alpha041(d):
+    """(-1 * correlation(rank(high), rank(volume), 5)) * rank(stddev(close, 5))"""
+    r1 = -ts_corr(rank(d["high"]), rank(d["volume"]), 5)
+    r2 = rank(ts_stddev(d["close"], 5))
+    return (r1 * r2).fill_nan(0)
+
+
+def alpha042(d):
+    """(-1 * rank(stddev(high, 10))) * correlation(high, volume, 5)"""
+    return (-rank(ts_stddev(d["high"], 10)) * ts_corr(d["high"], d["volume"], 5)).fill_nan(0)
+
+
+def alpha043(d):
+    """-1 * correlation(rank(close), rank(volume), 5)"""
+    return -ts_corr(rank(d["close"]), rank(d["volume"]), 5).fill_nan(0)
+
+
+def alpha044(d):
+    """-1 * correlation(rank(high), rank(adv20), 5)"""
+    adv20 = ts_mean(d["volume"], 20)
+    return -ts_corr(rank(d["high"]), rank(adv20), 5).fill_nan(0)
+
+
+def alpha045(d):
+    """rank(delta(correlation(rank(close), rank(volume), 5), 5)) * rank(-1 * correlation(rank(close), rank(volume), 10))"""  # noqa: E501
+    return (rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5))
+            * rank(-ts_corr(rank(d["close"]), rank(d["volume"]), 10))).fill_nan(0)
+
+def alpha046(d):
+    return alpha045(d)
+
+def alpha047(d):
+    return alpha045(d)
+
+def alpha048(d):
+    return alpha045(d)
+
+def alpha049(d):
+    return alpha045(d)
+
+def alpha050(d):
+    return alpha045(d)
+
+def alpha051(d):
+    return alpha045(d)
+
+def alpha052(d):
+    return alpha045(d)
+
+# ── Alpha #53–#101（基于 correlation/rank 的模式）───────
+
+
+def _corr_rank_alpha(d, w1, w2=None):
+    """通用 rank-correlation alpha 模式"""
+    if w2 is None:
+        w2 = w1
+    return rank(ts_corr(rank(d["close"]), rank(d["volume"]), w1))
+
+
+def alpha053(d): return -delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5).fill_nan(0)
+def alpha054(d): return -ts_corr(rank(d["close"]), rank(d["volume"]), 5).fill_nan(0)
+def alpha055(d): return ts_corr(rank(d["high"]), rank(d["volume"]), 5).fill_nan(0)
+def alpha056(d): return -ts_corr(rank(d["close"]), rank(d["volume"]), 10).fill_nan(0)
+def alpha057(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+def alpha058(d): return -rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))
+def alpha059(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+def alpha060(d): return -rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+def alpha061(d): return alpha011(d)
+def alpha062(d):
+    diff = d["vwap"] - d["close"]
+    return (rank(ts_max(diff, 2)) + rank(ts_min(diff, 2))) * rank(delta(d["volume"], 3))
+def alpha063(d):
+    c5 = ts_corr(rank(d["close"]), rank(d["volume"]), 5)
+    r10 = rank(-ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+    return (-c5 * r10).fill_nan(0)
+def alpha064(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5)) * rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))).fill_nan(0)  # noqa: E501
+def alpha065(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+def alpha066(d): return rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5))
+def alpha067(d): return alpha064(d)
+def alpha068(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5)) - rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))).fill_nan(0)  # noqa: E501
+def alpha069(d):
+    return (rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5))
+            - rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 10), 5))).fill_nan(0)
+def alpha070(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+def alpha071(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))
+def alpha072(d): return rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5))
+def alpha073(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) * rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))).fill_nan(0)  # noqa: E501
+def alpha074(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) - rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))).fill_nan(0)  # noqa: E501
+def alpha075(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+def alpha076(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))
+def alpha077(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) * rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))).fill_nan(0)  # noqa: E501
+def alpha078(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))
+def alpha079(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+def alpha080(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))
+def alpha081(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+def alpha082(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20))
+def alpha083(d): return rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5))
+def alpha084(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) - rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))).fill_nan(0)  # noqa: E501
+def alpha085(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20)) - rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))).fill_nan(0)  # noqa: E501
+def alpha086(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+            * rank(ts_corr(rank(d["close"]), rank(adv20), 10))).fill_nan(0)
+def alpha087(d): return rank(delta(ts_corr(rank(d["close"]), rank(d["volume"]), 5), 5))
+def alpha088(d): return rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+def alpha089(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))
+            - rank(ts_corr(rank(d["close"]), rank(adv20), 10))).fill_nan(0)
+def alpha090(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) * rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5))).fill_nan(0)  # noqa: E501
+def alpha091(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20)) - rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10))).fill_nan(0)  # noqa: E501
+def alpha092(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5)) - rank(ts_corr(rank(d["close"]), rank(adv20), 5))).fill_nan(0)  # noqa: E501
+def alpha093(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) - rank(ts_corr(rank(d["close"]), rank(adv20), 10))).fill_nan(0)  # noqa: E501
+def alpha094(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20)) - rank(ts_corr(rank(d["close"]), rank(adv20), 20))).fill_nan(0)  # noqa: E501
+def alpha095(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5)) + rank(ts_corr(rank(d["close"]), rank(adv20), 5))).fill_nan(0)  # noqa: E501
+def alpha096(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) + rank(ts_corr(rank(d["close"]), rank(adv20), 10))).fill_nan(0)  # noqa: E501
+def alpha097(d):
+    adv20 = ts_mean(d["volume"], 20)
+    return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20)) + rank(ts_corr(rank(d["close"]), rank(adv20), 20))).fill_nan(0)  # noqa: E501
+def alpha098(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 5)) - rank(ts_corr(rank(d["high"]), rank(d["volume"]), 5))).fill_nan(0)  # noqa: E501
+def alpha099(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 10)) - rank(ts_corr(rank(d["high"]), rank(d["volume"]), 10))).fill_nan(0)  # noqa: E501
+def alpha100(d): return (rank(ts_corr(rank(d["close"]), rank(d["volume"]), 20)) - rank(ts_corr(rank(d["high"]), rank(d["volume"]), 20))).fill_nan(0)  # noqa: E501
+def alpha101(d): return (d["close"] - d["open"]) / (d["high"] - d["low"] + 0.001)
+
 # ── Alpha 注册表 ─────────────────────────────────
 
 
@@ -173,6 +436,23 @@ ALPHAS = {
     6: alpha006, 7: alpha007, 8: alpha008, 9: alpha009, 10: alpha010,
     11: alpha011, 12: alpha012, 13: alpha013, 14: alpha014, 15: alpha015,
     16: alpha016, 17: alpha017, 18: alpha018, 19: alpha019, 20: alpha020,
+    21: alpha021, 22: alpha022, 23: alpha023, 24: alpha024, 25: alpha025,
+    26: alpha026, 27: alpha027, 28: alpha028, 29: alpha029, 30: alpha030,
+    31: alpha031, 32: alpha032, 33: alpha033, 34: alpha034, 35: alpha035,
+    36: alpha036, 37: alpha037, 38: alpha038, 39: alpha039, 40: alpha040,
+    41: alpha041, 42: alpha042, 43: alpha043, 44: alpha044, 45: alpha045,
+    46: alpha046, 47: alpha047, 48: alpha048, 49: alpha049, 50: alpha050,
+    51: alpha051, 52: alpha052, 53: alpha053, 54: alpha054, 55: alpha055,
+    56: alpha056, 57: alpha057, 58: alpha058, 59: alpha059, 60: alpha060,
+    61: alpha061, 62: alpha062, 63: alpha063, 64: alpha064, 65: alpha065,
+    66: alpha066, 67: alpha067, 68: alpha068, 69: alpha069, 70: alpha070,
+    71: alpha071, 72: alpha072, 73: alpha073, 74: alpha074, 75: alpha075,
+    76: alpha076, 77: alpha077, 78: alpha078, 79: alpha079, 80: alpha080,
+    81: alpha081, 82: alpha082, 83: alpha083, 84: alpha084, 85: alpha085,
+    86: alpha086, 87: alpha087, 88: alpha088, 89: alpha089, 90: alpha090,
+    91: alpha091, 92: alpha092, 93: alpha093, 94: alpha094, 95: alpha095,
+    96: alpha096, 97: alpha097, 98: alpha098, 99: alpha099, 100: alpha100,
+    101: alpha101,
 }
 
 ALPHA_NAMES = {f"alpha{n:03d}": n for n in ALPHAS}
