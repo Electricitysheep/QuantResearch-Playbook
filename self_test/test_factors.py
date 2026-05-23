@@ -1,6 +1,5 @@
 """因子自测模块 - 用模拟数据测试所有因子实现"""
 
-import importlib
 import time
 from typing import Any
 
@@ -91,12 +90,12 @@ def run_all_factor_tests() -> list[dict[str, Any]]:
 
     # ── 注册基础因子 ──
     from qrp.core.factor import (
-        FactorVwapDev,
+        FactorCorrPriceVolume,
+        FactorDrawdown,
         FactorMomentum,
         FactorRSI,
         FactorVolumeVol,
-        FactorCorrPriceVolume,
-        FactorDrawdown,
+        FactorVwapDev,
     )
 
     _r(FactorVwapDev, "vwap_dev_60", "basic", {"window": 60})
@@ -121,10 +120,10 @@ def run_all_factor_tests() -> list[dict[str, Any]]:
     register(SRVFactor, "srv", "basic")
 
     from qrp.reports.dongwu.technical_factors import (
-        ShadowLineFactor,
         CandlePowerFactor,
         IdiosyncraticVolatilityFactor,
         SerialCorrelationFactor,
+        ShadowLineFactor,
     )
     _r(ShadowLineFactor, "shadow_line_20", "basic", {"window": 20})
     _r(CandlePowerFactor, "candle_power_14", "basic", {"window": 14})
@@ -137,21 +136,20 @@ def run_all_factor_tests() -> list[dict[str, Any]]:
 
     from qrp.reports.huatai.gpt_factor_factory import (
         BullBearIndex,
-        GPTFactorFactory,
     )
     register(BullBearIndex, "bull_bear", "basic")
 
     # ── 注册光大证券因子 ──
-    from qrp.reports.guangda.rsrs_indicator import RSRSIndicator, QRSIndicator
+    from qrp.reports.guangda.rsrs_indicator import QRSIndicator, RSRSIndicator
     _r(RSRSIndicator, "rsrs_18", "basic", {"window": 18})
     _r(QRSIndicator, "qrs_18", "basic", {"window": 18})
 
     # ── 注册开源证券因子 ──
     from qrp.reports.kaiyuan.smart_money import (
-        SmartMoneyFactor,
-        APMFloorFactor,
         AmplitudeFactor,
+        APMFloorFactor,
         MomentumFactor,
+        SmartMoneyFactor,
     )
     _r(SmartMoneyFactor, "smart_money_20", "basic", {"window": 20})
     _r(APMFloorFactor, "apm_20", "basic", {"window": 20})

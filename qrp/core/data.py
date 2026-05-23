@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import logging
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
@@ -119,8 +118,9 @@ class MockSource(DataSource):
         return pl.DataFrame({"code": ["000001", "000002"], "name": ["平安银行", "万科A"]})
 
     def daily_bars(self, symbol: str, start: str, end: str) -> pl.DataFrame:
-        import numpy as np
         from datetime import timedelta
+
+        import numpy as np
 
         start_dt = datetime.strptime(start[:10], "%Y-%m-%d") if "-" in start else datetime.strptime(start[:8], "%Y%m%d")
         end_dt = datetime.strptime(end[:10], "%Y-%m-%d") if "-" in end else datetime.strptime(end[:8], "%Y%m%d")

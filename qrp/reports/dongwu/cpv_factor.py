@@ -150,7 +150,6 @@ class RPVFactor(Factor):
         # 价量同向（象限I和III）：动量效应
         same_direction = pos_price == pos_vol
         # 价量反向（象限II和IV）：反转效应
-        opposite_direction = pos_price != pos_vol
 
         # 计算相关性信号
         import numpy as np
@@ -190,7 +189,7 @@ class SRVFactor(Factor):
     def calculate(self, data: pl.DataFrame) -> pl.Series:
         close = data["close"]
         volume = data["volume"]
-        n = len(data)
+        len(data)
 
         # 简化实现：使用分时段相关性的加权组合
         import numpy as np

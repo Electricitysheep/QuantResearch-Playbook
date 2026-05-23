@@ -4,7 +4,6 @@ import importlib
 import platform
 import subprocess
 import sys
-from pathlib import Path
 from typing import Optional
 
 
@@ -55,7 +54,7 @@ def auto_install(quiet: bool = False) -> dict[str, str]:
         ok, ver = check_dependency(name, min_ver)
         if not ok:
             missing.append(name)
-            results[name] = f"missing (will install)"
+            results[name] = "missing (will install)"
         else:
             results[name] = f"{ver} (ok)"
 
@@ -64,7 +63,7 @@ def auto_install(quiet: bool = False) -> dict[str, str]:
         if ok:
             results[name] = f"{ver} (ok)"
         else:
-            results[name] = f"not installed (optional)"
+            results[name] = "not installed (optional)"
 
     if missing:
         if not quiet:

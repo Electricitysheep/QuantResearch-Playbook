@@ -144,7 +144,7 @@ class MomentumFactor(Factor):
 
     def calculate(self, data: pl.DataFrame) -> pl.Series:
         close = data["close"]
-        n = len(close)
+        len(close)
 
         # 经典动量 = 过去 N 日收益（跳过最近 M 日）
         ret_window = close.pct_change(self._window)

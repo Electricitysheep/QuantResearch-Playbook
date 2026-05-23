@@ -1,6 +1,5 @@
 """HTML 测试报告生成器"""
 
-import webbrowser
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -85,7 +84,8 @@ def generate_html_report(
 <title>QuantResearch-Playbook 自测报告</title>
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
-body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#f5f7fa; color:#1a1a2e; padding:20px; }}
+body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+background:#f5f7fa; color:#1a1a2e; padding:20px; }}
 .container {{ max-width:1200px; margin:0 auto; }}
 h1 {{ font-size:24px; margin-bottom:5px; }}
 h2 {{ font-size:18px; margin:25px 0 10px; padding-bottom:5px; border-bottom:2px solid #e0e0e0; }}
@@ -98,7 +98,9 @@ h2 {{ font-size:18px; margin:25px 0 10px; padding-bottom:5px; border-bottom:2px 
 .card.orange .num {{ color:#f59e0b; }}
 .card.blue .num {{ color:#3b82f6; }}
 .card.red .num {{ color:#ef4444; }}
-table {{ width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.08); margin-bottom:20px; }}
+table {{ width:100%; border-collapse:collapse; background:#fff;
+border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.08);
+margin-bottom:20px; }}
 th {{ background:#1a1a2e; color:#fff; padding:10px 12px; font-size:13px; text-align:left; }}
 td {{ padding:8px 12px; font-size:13px; border-bottom:1px solid #f0f0f0; }}
 tr:hover {{ background:#f8fafc; }}
@@ -158,7 +160,9 @@ code {{ background:#f1f5f9; padding:2px 6px; border-radius:3px; font-size:12px; 
 
 <h2>🔬 因子测试 ({passed_factors}/{total_factors} 通过)</h2>
 <table>
-<thead><tr><th>状态</th><th>因子名称</th><th>类</th><th style="text-align:right">均值</th><th style="text-align:right">标准差</th><th style="text-align:right">耗时</th><th>备注</th></tr></thead>
+<thead><tr><th>状态</th><th>因子名称</th><th>类</th>
+<th style="text-align:right">均值</th><th style="text-align:right">标准差</th>
+<th style="text-align:right">耗时</th><th>备注</th></tr></thead>
 <tbody>{factor_rows}</tbody>
 </table>
 

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable
 
 import numpy as np
 import polars as pl
@@ -157,8 +156,7 @@ def group_backtest(
 ) -> BacktestResult:
     """分层回测（指定分组的等权组合）"""
     # 简化的分层回测
-    mask = group_labels == group
-    avg_price = prices.mean()
+    prices.mean()
     return BacktestResult(
         total_return=0,
         annual_return=0,

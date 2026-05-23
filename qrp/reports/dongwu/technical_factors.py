@@ -142,8 +142,8 @@ class SerialCorrelationFactor(Factor):
         self._window = window
 
     def calculate(self, data: pl.DataFrame) -> pl.Series:
-        close = data["close"]
-        volume = data["volume"]
+        data["close"]
+        data["volume"]
 
         # 价格自相关性
         close_autocorr = data.select(

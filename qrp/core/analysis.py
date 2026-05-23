@@ -87,7 +87,7 @@ class FactorAnalyzer:
         for i in range(len(prices) - forward_periods):
             forward_ret[i] = prices[i + forward_periods] / prices[i] - 1
 
-        forward_ret_series = pl.Series("forward_ret", forward_ret)
+        pl.Series("forward_ret", forward_ret)
         factor_np = self.factor_values.to_numpy()
 
         # 日度 IC

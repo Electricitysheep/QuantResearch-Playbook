@@ -2,16 +2,15 @@
 
 import polars as pl
 
+from qrp.core.analysis import FactorAnalyzer
+from qrp.core.backtest import Backtester
 from qrp.core.factor import (
-    FactorVwapDev,
+    FactorCorrPriceVolume,
     FactorMomentum,
     FactorRSI,
-    FactorCorrPriceVolume,
-    FactorPipeline,
+    FactorVwapDev,
     create_base_factors,
 )
-from qrp.core.backtest import Backtester
-from qrp.core.analysis import FactorAnalyzer
 
 
 def _make_mock_data(n: int = 200) -> pl.DataFrame:
