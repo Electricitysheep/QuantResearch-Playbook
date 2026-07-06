@@ -69,13 +69,18 @@ class Backtester:
         returns = prices.pct_change().fill_null(0).to_numpy()
         signals_np = signals.to_numpy()
 
-        # 计算交易成本
-        position = np.zeros_like(signals_np)
+        # 计算持仓（NaN 信号沿用前一持仓）
+        position_raw = np.zeros_like(signals_np)
         for i in range(1, len(signals_np)):
             if np.isnan(signals_np[i]):
-                position[i] = position[i - 1]
+                position_raw[i] = position_raw[i - 1]
             else:
-                position[i] = signals_np[i]
+                position_raw[i] = signals_np[i]
+
+        # 信号基于 bar i 收盘价生成，最早从 bar i+1 起生效
+        # （一根 K 线执行延迟，否则信号会赚取生成它的那根 K 线的收益 = 前视偏差）
+        position = np.roll(position_raw, 1)
+        position[0] = 0.0
 
         position_change = np.diff(position, prepend=0)
         cost = np.abs(position_change) * (self.tc + self.slippage)
