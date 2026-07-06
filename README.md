@@ -7,13 +7,13 @@
   <img src="https://img.shields.io/badge/polars-1.0%2B-gold?style=flat-square&logo=python" alt="Polars">
   <img src="https://img.shields.io/github/stars/Electricitysheep/QuantResearch-Playbook?style=flat-square" alt="Stars">
   <img src="https://img.shields.io/github/license/Electricitysheep/QuantResearch-Playbook?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/tests-15%2F15-success?style=flat-square" alt="Tests">
-  <img src="https://img.shields.io/badge/self--test-28%2F28-success?style=flat-square" alt="Self-Test">
+  <img src="https://img.shields.io/badge/tests-24%2F24-success?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/self--test-39%2F39-success?style=flat-square" alt="Self-Test">
 </p>
 
 ---
 
-基于 **Polars** 构建的新一代券商金工研报复现框架。覆盖 **13+ 家券商、50+ 个经典策略**，从数据获取到因子评估到回测验证全流程一体化。
+基于 **Polars** 构建的新一代券商金工研报复现框架。已复现 **5 家券商 15+ 篇研报、24+ 个因子**（东方/广发/国泰在路线图），从数据获取到因子评估到回测验证全流程一体化。
 
 与传统的 QuantsPlaybook 相比，本框架实现 **10x 性能提升** 和 **零成本数据获取**：
 
@@ -36,15 +36,16 @@
 - **📦 轻量级**: 核心依赖仅 Polars + NumPy + SciPy。无沉重 ML 栈，pip install 即用
 - **🔌 可扩展**: 插件式因子/策略架构，新增策略只需继承 `Factor` 基类
 - **📊 全面分析**: 内置 IC/ICIR 分析、分层回测、多空收益、因子归因
+- **📐 横截面评估**: date × symbol 面板的日度截面 IC/RankIC、分位组合与多空收益（与研报选股语义同构，见 `qrp/core/cross_section.py`）
 - **🆓 免费数据**: 首选 AkShare 免费数据源，兼容 Tushare/Pandas
 - **📝 标准化**: 每个策略统一模板：研报信息 → 因子计算 → 回测 → 报告
-- **✅ 自测保障**: 一键运行 28 项自动测试，确保框架完整性
+- **✅ 自测保障**: 一键运行 39 项自动测试，确保框架完整性
 
 ## 📊 项目统计
 
 ```
-📦 总文件: 41 个  |  🔬 实现因子: 24+  |  📋 覆盖券商: 6 家
-🧪 单元测试: 15/15 ✅  |  🤖 自测: 28/28 ✅  |  📈 CI: GitHub Actions
+📦 总文件: 53 个  |  🔬 实现因子: 24+  |  📋 覆盖券商: 5 家
+🧪 单元测试: 24/24 ✅  |  🤖 自测: 39/39 ✅  |  📈 CI: GitHub Actions
 ```
 
 ## 📋 覆盖券商与策略
@@ -224,9 +225,10 @@ graph LR
 ### Roadmap
 
 - [x] 核心框架: DataLoader / Factor / Backtester / Analysis
-- [x] 6 家券商 24+ 策略实现
+- [x] 5 家券商 24+ 因子实现
 - [x] 一键自测模块
 - [x] CI/CD 集成
+- [x] 横截面评估层（日度截面 IC/RankIC、分位多空）
 - [ ] 东方证券、广发证券等剩余 7 家券商策略
 - [ ] 在线 Demo / Streamlit Dashboard
 - [ ] WorldQuant Alpha101 完整实现
